@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Models\Collections\StocksCollection;
+use App\Models\Stock;
 use Finnhub\Api\DefaultApi;
 use Finnhub\Configuration;
 use GuzzleHttp\Client;
@@ -19,7 +21,29 @@ class FinnhubModelRepository
             $config);
     }
 
-    public function getStockQuote(string $symbol): float
+    public function getStock(string $name): StocksCollection
+    {
+        $stocks = $this->finnhub->symbolSearch($name)->getResult();
+
+        $collection = new StocksCollection();
+
+        foreach ($stocks as $stock)
+        {
+            $collection->add(
+                new Stock([
+                    "name" => $stock->getDescription(),
+                    "symbol" => $stock->getSymbol(),
+                    "currentQuote" => 0
+                ])
+            );
+
+        }
+
+        return $collection;
+    }
+
+
+    public function getStockPrice(string $symbol): float
     {
         return $this->finnhub->quote($symbol)->getC();
     }

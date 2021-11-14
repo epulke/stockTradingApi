@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchStockRequest;
+use App\Repositories\FinnhubModelRepository;
 use Illuminate\Http\Request;
 
 class StocksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private FinnhubModelRepository $finnhub;
+
+    public function __construct(FinnhubModelRepository $finnhub)
     {
-        //
+        $this->finnhub = $finnhub;
+    }
+
+    public function index(SearchStockRequest $request)
+    {
+        $stocksCollection = $this->finnhub->getStock($request->get("search"))->getStocksCollection();
+        return view("search.results", ["stocks" => $stocksCollection]);
     }
 
     /**

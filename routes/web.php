@@ -34,4 +34,11 @@ Route::get("/user/funds/withdraw", [UserFundsController::class, "withdrawView"])
 Route::post("/user/funds/withdraw", [UserFundsController::class, "withdrawAction"])
     ->middleware(["auth"])->name("withdrawAction");
 
+Route::get('/search', function () {
+    return view('search');
+})->middleware(['auth'])->name('search');
+
+Route::get("/search/results", [StocksController::class, "index"])
+    ->middleware(["auth"])->name("search.results");
+
 require __DIR__.'/auth.php';
