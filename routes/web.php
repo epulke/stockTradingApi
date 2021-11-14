@@ -26,10 +26,12 @@ Route::get('/dashboard', function () {
 
 Route::resource("stocks", StocksController::class);
 
-//Route::get('/user/funds', [UserFundsController::class, 'index'])->name('funds');
 
-Route::view("/user/funds", "funds.funds")->middleware(["auth"])->name("funds");
+Route::get("/user/funds", [UserFundsController::class, "index"])->middleware(["auth"])->name("funds");
 Route::post("/user/funds", [UserFundsController::class, "deposit"])->middleware(["auth"])->name("deposit");
-Route::view("/user/funds/withdraw", "funds.withdraw")->middleware(["auth"])->name("withdraw");
+Route::get("/user/funds/withdraw", [UserFundsController::class, "withdrawView"])
+    ->middleware(["auth"])->name("withdrawView");
+Route::post("/user/funds/withdraw", [UserFundsController::class, "withdrawAction"])
+    ->middleware(["auth"])->name("withdrawAction");
 
 require __DIR__.'/auth.php';

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserFundsRequest extends FormRequest
+class UserFundsWithdrawRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class UserFundsRequest extends FormRequest
     public function rules()
     {
         return [
-            "deposit" => ["required"],
-            "withdraw" => ["withdraw"]
+            "withdraw" => ["required", "gt:0"]
         ];
     }
 }
