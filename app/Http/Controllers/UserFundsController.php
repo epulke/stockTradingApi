@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FundsWereDeposited;
 use App\Http\Requests\UserFundsDepositRequest;
 use App\Http\Requests\UserFundsWithdrawRequest;
 use App\Models\User;
@@ -23,6 +24,10 @@ class UserFundsController extends Controller
         $userId = Auth::user()->getAuthIdentifier();
         $funds = UserFunds::where("user_id", $userId)->firstOrFail();
         $funds->update(["funds" => $funds->funds + $request->get("deposit")]);
+        $user = User::find(Auth::user()->getAuthIdentifier())->email;
+
+        // TODO šeit būs jāpieliek to eventu, kad atnāk epasts par deposited amount.
+//        event(new FundsWereDeposited($user, $request->get("deposit")));die;
 
         return redirect()->route("funds");
     }
