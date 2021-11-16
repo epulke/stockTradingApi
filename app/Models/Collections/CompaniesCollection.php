@@ -2,9 +2,9 @@
 
 namespace App\Models\Collections;
 
-use App\Models\Stock;
+use App\Models\Company;
 
-class StocksCollection
+class CompaniesCollection
 {
     private array $stocksCollection = [];
 
@@ -12,14 +12,14 @@ class StocksCollection
     {
         foreach ($stocksCollection as $stock)
         {
-            if($stock instanceof Stock)
+            if($stock instanceof Company)
             {
                 $this->add($stock);
             }
         }
     }
 
-    public function add(Stock $stock)
+    public function add(Company $stock)
     {
         $this->stocksCollection[] = $stock;
     }

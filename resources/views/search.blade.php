@@ -2,7 +2,7 @@
 
 
 <div class="p-6 bg-white border-b border-gray-200">
-    <form method="get" action="/search/results">
+    <form method="get" action="/companies">
         @csrf
         <div class="mb-4">
             <label for="search" class="block text-grey-darker text-sm font-bold mb-2">Search stock by name or symbol</label>

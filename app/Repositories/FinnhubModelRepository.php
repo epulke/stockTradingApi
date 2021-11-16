@@ -2,13 +2,17 @@
 
 namespace App\Repositories;
 
-use App\Models\Collections\StocksCollection;
-use App\Models\Stock;
+use App\Models\Collections\CompaniesCollection;
+use App\Models\Company;
+use App\Models\CompanyProfile;
 use Finnhub\Api\DefaultApi;
 use Finnhub\Configuration;
 use GuzzleHttp\Client;
+use Illuminate\Support\Str;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
-class FinnhubModelRepository
+
+class FinnhubModelRepository implements StockRepository
 {
     private DefaultApi $finnhub;
 
@@ -21,30 +25,50 @@ class FinnhubModelRepository
             $config);
     }
 
-    public function getStock(string $name): StocksCollection
+    public function searchCompanies(string $name): CompaniesCollection
     {
-        $stocks = $this->finnhub->symbolSearch($name)->getResult();
+        $companies = $this->finnhub->symbolSearch($name)->getResult();
+        $cacheKey = "companies." . Str::snake($name);
 
-        $collection = new StocksCollection();
+        if (cache()->has($cacheKey)) return cache()->get($cacheKey);
 
-        foreach ($stocks as $stock)
+        $collection = new CompaniesCollection();
+
+        foreach ($companies as $company)
         {
             $collection->add(
-                new Stock([
-                    "name" => $stock->getDescription(),
-                    "symbol" => $stock->getSymbol(),
-                    "currentQuote" => 0
+                new Company([
+                    "name" => $company->getDescription(),
+                    "symbol" => $company->getSymbol()
                 ])
             );
 
         }
+        cache()->put($cacheKey, $collection, now()->addHour());
 
         return $collection;
     }
 
 
-    public function getStockPrice(string $symbol): float
+    public function getCompanyProfile(string $symbol): CompanyProfile
     {
-        return $this->finnhub->quote($symbol)->getC();
+        $company = $this->finnhub->companyProfile2($symbol);
+        $cacheKey = "companies." . Str::snake($symbol);
+
+        if (cache()->has($cacheKey)) return cache()->get($cacheKey);
+
+        $companyProfile = new CompanyProfile([
+            "name" => $company->getName(),
+            "symbol" => $company->getTicker(),
+            "currency" => $company->getCurrency(),
+            "logoUrl" => $company->getLogo(),
+            "webUrl" => $company->getWeburl(),
+            "industry" => $company->getFinnhubIndustry(),
+            "marketCapitalization" => $company->getMarketCapitalization()
+        ]);
+
+        cache()->put($cacheKey, $companyProfile, now()->addHour());
+
+        return $companyProfile;
     }
 }

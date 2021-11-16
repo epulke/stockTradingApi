@@ -3,7 +3,8 @@
 <ul>
     @foreach ($stocks as $stock)
         <li>
-            <p> {{ $stock->name }}, {{ $stock->symbol }}</p>
+            <a href="/companies/{{ $stock->symbol }}">{{ $stock->name }}, {{ $stock->symbol }}</a>
+
         </li>
     @endforeach
 </ul>

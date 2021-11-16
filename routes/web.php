@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\StocksController;
+use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\UserFundsController;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +24,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::resource("stocks", StocksController::class);
+Route::resource("companies", CompaniesController::class);
 
 
 Route::get("/user/funds", [UserFundsController::class, "index"])->middleware(["auth"])->name("funds");
@@ -38,7 +38,7 @@ Route::get('/search', function () {
     return view('search');
 })->middleware(['auth'])->name('search');
 
-Route::get("/search/results", [StocksController::class, "index"])
+Route::get("/search/results", [CompaniesController::class, "index"])
     ->middleware(["auth"])->name("search.results");
 
 require __DIR__.'/auth.php';

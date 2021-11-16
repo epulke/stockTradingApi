@@ -4,20 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchStockRequest;
 use App\Repositories\FinnhubModelRepository;
+use App\Repositories\StockRepository;
 use Illuminate\Http\Request;
 
-class StocksController extends Controller
+class CompaniesController extends Controller
 {
-    private FinnhubModelRepository $finnhub;
+    private StockRepository $repository;
 
-    public function __construct(FinnhubModelRepository $finnhub)
+    public function __construct(StockRepository $repository)
     {
-        $this->finnhub = $finnhub;
+        $this->repository = $repository;
     }
 
     public function index(SearchStockRequest $request)
     {
-        $stocksCollection = $this->finnhub->getStock($request->get("search"))->getStocksCollection();
+        $stocksCollection = $this->repository->searchCompanies($request->get("search"))->getStocksCollection();
         return view("search.results", ["stocks" => $stocksCollection]);
     }
 
@@ -42,15 +43,10 @@ class StocksController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $companyProfile = $this->repository->getCompanyProfile($id);
+        return view("company.show", ["company" => $companyProfile]);
     }
 
     /**
