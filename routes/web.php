@@ -33,6 +33,7 @@ Route::get("/user/funds/withdraw", [UserFundsController::class, "withdrawView"])
     ->middleware(["auth"])->name("withdrawView");
 Route::post("/user/funds/withdraw", [UserFundsController::class, "withdrawAction"])
     ->middleware(["auth"])->name("withdrawAction");
+Route::post("/user/sendmail", [UserFundsController::class, "sendMail"])->middleware(["auth"])->name("user.sendMail");
 
 Route::get('/search', function () {
     return view('search');

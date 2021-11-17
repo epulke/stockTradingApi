@@ -9,7 +9,7 @@ class UserFunds extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["funds"];
+    protected $fillable = ["user_id","funds"];
 
     public function user()
     {

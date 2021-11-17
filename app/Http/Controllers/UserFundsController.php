@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\FundsWereDeposited;
+use App\Events\SendEmail;
 use App\Http\Requests\UserFundsDepositRequest;
 use App\Http\Requests\UserFundsWithdrawRequest;
 use App\Models\User;
@@ -15,6 +16,7 @@ class UserFundsController extends Controller
     public function index()
     {
         $userId = Auth::user()->getAuthIdentifier();
+
         $funds = UserFunds::where("user_id", $userId)->firstOrFail()->funds;
         return view("funds.funds", ["funds" => $funds]);
     }
@@ -46,5 +48,15 @@ class UserFundsController extends Controller
         $funds->update(["funds" => $funds->funds - $request->get("withdraw")]);
 
         return redirect()->route("funds");
+    }
+    public function sendMail()
+    {
+        $attributes = request()->validate([
+            'email' => ['required'],
+            'message' => ['required']
+        ]);
+        event(new SendEmail($attributes['email'],$attributes['message'], Auth::user()->email));
+
+        return redirect()->route('funds');
     }
 }

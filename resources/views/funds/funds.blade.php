@@ -19,6 +19,13 @@
             <input type="submit" id="submit" name="submit" value="Deposit" ><br><br>
         </div>
     </form>
+
+    <form  method="post" action="{{route('user.sendMail')}}">
+        @csrf
+        <input type="text" placeholder="email to send" name="email" >
+        <input type="text" placeholder="message" name="message">
+        <button type="submit" >Send</button>
+    </form>
 </div>
 <div class="p-6 bg-white border-b border-gray-200">
     <a href="/user/funds/withdraw">Withdraw Funds</a>

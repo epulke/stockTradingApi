@@ -13,7 +13,7 @@ class CreateUsersFundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_funds', function (Blueprint $table) {
+        Schema::create('user_funds', function (Blueprint $table) {
             $table->id();
             $table->integer("user_id");
             $table->integer("funds")->nullable()->default(null);
@@ -28,6 +28,6 @@ class CreateUsersFundsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_funds');
+        Schema::dropIfExists('user_funds');
     }
 }
