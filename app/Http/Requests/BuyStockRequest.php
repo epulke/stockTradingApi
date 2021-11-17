@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SearchStockRequest extends FormRequest
+class BuyStockRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class SearchStockRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class SearchStockRequest extends FormRequest
     public function rules()
     {
         return [
-            "search" => ["required"]
+            "amount" => ["required", "integer", "gt:0"],
+            "symbol" => ["required", "string"],
+            "quote" => ["required", "gt:0"]
         ];
     }
 }

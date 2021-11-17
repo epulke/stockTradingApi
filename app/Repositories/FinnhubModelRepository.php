@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Collections\CompaniesCollection;
 use App\Models\Company;
 use App\Models\CompanyProfile;
+use App\Models\CompanyStockQuote;
 use Finnhub\Api\DefaultApi;
 use Finnhub\Configuration;
 use GuzzleHttp\Client;
@@ -70,5 +71,15 @@ class FinnhubModelRepository implements StockRepository
         cache()->put($cacheKey, $companyProfile, now()->addHour());
 
         return $companyProfile;
+    }
+
+    public function getStockQuote(string $symbol): CompanyStockQuote
+    {
+        // TODO uztaisīt te cache laikā, kad birža nestrādā
+        $quote = new CompanyStockQuote([
+            "symbol" => $symbol,
+            "quote" => $this->finnhub->quote($symbol)->getC()
+        ]);
+        return $quote;
     }
 }

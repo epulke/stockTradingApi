@@ -47,4 +47,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserFunds::class);
     }
+
+    public function stocks()
+    {
+        return $this->hasMany(UserStock::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(UserTransaction::class);
+    }
 }

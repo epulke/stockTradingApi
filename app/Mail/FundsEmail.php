@@ -32,6 +32,6 @@ class FundsEmail extends Mailable
     {
         return $this->from("elina.pulke@gmail.com")
                     ->subject("deposit email")
-                    ->markdown('deposit.funds', ["deposit" => $this->deposit]);
+                    ->markdown('mail.funds', ["deposit" => $this->deposit]);
     }
 }

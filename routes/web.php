@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\UserFundsController;
+use App\Http\Controllers\UserStocksController;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 
@@ -40,5 +41,8 @@ Route::get('/search', function () {
 
 Route::get("/search/results", [CompaniesController::class, "index"])
     ->middleware(["auth"])->name("search.results");
+
+Route::get("/portfolio", [UserStocksController::class, "index"])->middleware(["auth"])->name("portfolio");
+
 
 require __DIR__.'/auth.php';
