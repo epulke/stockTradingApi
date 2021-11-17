@@ -13,9 +13,9 @@ class CreateUsersFundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_funds', function (Blueprint $table) {
+        Schema::create('user_funds', function (Blueprint $table) {
             $table->id();
-            $table->integer("user_id");
+            $table->bigInteger("user_id");
             $table->integer("funds")->nullable()->default(null);
             $table->timestamps();
         });

@@ -50,10 +50,11 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        UserFunds::create([
-            "user_id" => Auth::user()->getAuthIdentifier(),
+        $funds = new UserFunds([
             "funds" => 0
         ]);
+        $funds->user()->associate(auth()->user());
+        $funds->save();
 
         return redirect(RouteServiceProvider::HOME);
     }
