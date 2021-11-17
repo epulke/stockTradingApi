@@ -27,7 +27,7 @@ class UserFundsController extends Controller
         $user = User::find(Auth::user()->getAuthIdentifier())->email;
 
         // TODO šeit būs jāpieliek to eventu, kad atnāk epasts par deposited amount.
-//        event(new FundsWereDeposited($user, $request->get("deposit")));die;
+        event(new FundsWereDeposited($user, $request->get("deposit")));
 
         return redirect()->route("funds");
     }
