@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\UserFundsController;
 use App\Http\Controllers\UserStocksController;
+use App\Http\Controllers\UserTransactionsController;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 
@@ -42,7 +43,16 @@ Route::get('/search', function () {
 Route::get("/search/results", [CompaniesController::class, "index"])
     ->middleware(["auth"])->name("search.results");
 
-Route::get("/portfolio", [UserStocksController::class, "index"])->middleware(["auth"])->name("portfolio");
+Route::get("/portfolio", [UserStocksController::class, "index"])
+    ->middleware(["auth"])->name("portfolio.index");
+Route::post("/portfolio/{symbol}", [UserStocksController::class, "buyStock"])
+    ->middleware(["auth"])->name("portfolio.buyStock");
+Route::put("/portfolio/{symbol}", [UserStocksController::class, "sellStock"])
+    ->middleware(["auth"])->name("portfolio.sellStock");
 
+Route::get("/transactions", [UserTransactionsController::class, "index"])
+    ->middleware(["auth"])->name("transactions");
+
+Route::get("/test", [UserStocksController::class, "test"])->name("test");
 
 require __DIR__.'/auth.php';

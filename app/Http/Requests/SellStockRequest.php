@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\EnoughFunds;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BuyStockRequest extends FormRequest
+class SellStockRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +24,7 @@ class BuyStockRequest extends FormRequest
     public function rules()
     {
         return [
-            "amountBuy" => ["required", "integer", "gt:0", new EnoughFunds()]
-            // TODO šeit rule nestrādā
+            "amountSell" => ["required", "integer", "gt:0"]
         ];
     }
 }

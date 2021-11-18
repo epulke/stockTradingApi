@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BuyStockRequest;
 use App\Http\Requests\SearchStockRequest;
+use App\Models\UserFunds;
 use App\Models\UserStock;
 use App\Models\UserTransaction;
-use App\Repositories\FinnhubModelRepository;
 use App\Repositories\StockRepository;
 use Illuminate\Http\Request;
 
@@ -37,24 +37,7 @@ class CompaniesController extends Controller
 
     public function store(BuyStockRequest $request)
     {
-        $userStock = new UserStock ([
-            "stock_symbol" => $request->get("symbol"),
-            "purchase_price" => $request->get("quote"),
-            "amount" => $request->get("amount")
-        ]);
-        $userStock->user()->associate(auth()->user());
-        $userStock->save();
-
-        $userTransaction = new UserTransaction([
-            "transaction_type" => "buy",
-            "stock_symbol" => $request->get("symbol"),
-            "amount" => $request->get("amount"),
-            "stock_price" => $request->get("quote")
-        ]);
-        $userTransaction->user()->associate(auth()->user());
-        $userTransaction->save();
-
-        return redirect()->route("portfolio");
+        //
     }
 
     public function show($id)
