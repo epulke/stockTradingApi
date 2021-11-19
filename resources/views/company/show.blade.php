@@ -1,39 +1,68 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{  $company->name }}
+        </h2>
+    </x-slot>
 
-<h1>{{ $company->name }}</h1>
-<img src="{{ $company->logoUrl }}" alt="{{ $company->name }} logo">
-<h5>{{ $company->symbol }}</h5>
-<h5>Currency: {{ $company->currency }}</h5>
-<h5>Company Industry: {{ $company->industry }}</h5>
-<h5>Website: {{ $company->webUrl }}</h5>
-<h5>Market Capitalization {{ $company->marketCapitalization }}</h5>
-<h3>Stock Price {{ $quote }}</h3>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
 
-<div class="p-6 bg-white border-b border-gray-200">
-    <form method="post" action="/portfolio/{{ $company->symbol }}">
-        @csrf
-        <div class="mb-4">
-            <label for="amountBuy" class="block text-grey-darker text-sm font-bold mb-2">Buy this stock: </label>
-            <input class="border rounded w-full py-2 px-3 text-grey-darker" type="text"
-                   name="amountBuy" id="amountBuy" placeholder="Amount">
-            {{--            @error("deposit")--}}
-            {{--            <p style="color: red">{{ $message }}</p>--}}
-            {{--            @enderror--}}
-            <input type="submit" id="submit" name="submit" value="Buy" ><br><br>
+                    <div class="text-center">
+                        <h5 class="font-bold text-4xl">{{ $company->name }}</h5>
+                        <h5 class="font-bold text-2xl">{{ $company->symbol }}</h5>
+
+                        <div class="align-middle ">
+                            <img class="object-center mx-auto" src="{{ $company->logoUrl }}" alt="{{ $company->name }} logo">
+                        </div>
+
+                        <div class ="grid gap-4 grid-cols-2">
+                            <h5 class="flex-1"><b>Currency:</b> {{ $company->currency }}</h5>
+                            <h5 class="flex-2"><b>Company Industry:</b> {{ $company->industry }}</h5>
+                        </div>
+
+                        <div class ="grid gap-4 grid-cols-2">
+                            <h5 ><a href="{{ $company->webUrl }}" class="hover:text-indigo-600 ">Website</a></h5>
+                            <h5 ><b>Market Capitalization:</b> {{ number_format($company->marketCapitalization) }}</h5>
+                        </div>
+
+                        <h3 class="font-bold text-2xl">Stock Price <br>{{ number_format($quote, 2) }}</h3>
+                    </div>
+
+
+                    <div class="grid gap-4 grid-cols-2 p-6 bg-white">
+                        <form method="post" action="/portfolio/{{ $company->symbol }}">
+                            @csrf
+                            <div class="mb-4">
+                                <label for="amountBuy" class="mr-4 text-gray-700 font-bold inline-block mb-2">Buy this stock: </label>
+                                <input class="border bg-gray-100 py-2 px-4 w-60 outline-none focus:ring-2 focus:ring-indigo-400 rounded" type="text"
+                                       name="amountBuy" id="amountBuy" placeholder="Amount">
+                                            @error("amountBuy")
+                                            <p style="color: red">{{ $message }}</p>
+                                            @enderror
+                                <input type="submit" id="submit" name="submit" value="Buy" class="w-2/12 mt-6 text-indigo-50 font-bold bg-indigo-600 py-3 rounded-md hover:bg-indigo-500 transition duration-300"><br><br>
+                            </div>
+                        </form>
+
+                        <form method="post" action="/portfolio/{{ $company->symbol }}">
+                            @csrf
+                            @method("PUT")
+                            <div class="mb-4">
+                                <label for="amountSell" class="mr-4 text-gray-700 font-bold inline-block mb-2">Sell this stock: </label>
+                                <input class="border bg-gray-100 py-2 px-4 w-60 outline-none focus:ring-2 focus:ring-indigo-400 rounded" type="text"
+                                       name="amountSell" id="amountSell" placeholder="Amount">
+                                @error("amountSell")
+                                <p style="color: red">{{ $message }}</p>
+                                @enderror
+                                <input type="submit" id="submit" name="submit" value="Sell" class="w-2/12 mt-6 text-indigo-50 font-bold bg-indigo-600 py-3 rounded-md hover:bg-indigo-500 transition duration-300"><br><br>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
         </div>
-    </form>
-</div>
-<div class="p-6 bg-white border-b border-gray-200">
-    <form method="post" action="/portfolio/{{ $company->symbol }}">
-        @csrf
-        @method("PUT")
-        <div class="mb-4">
-            <label for="amountSell" class="block text-grey-darker text-sm font-bold mb-2">Sell this stock: </label>
-            <input class="border rounded w-full py-2 px-3 text-grey-darker" type="text"
-                   name="amountSell" id="amountSell" placeholder="Amount">
-            {{--            @error("deposit")--}}
-            {{--            <p style="color: red">{{ $message }}</p>--}}
-            {{--            @enderror--}}
-            <input type="submit" id="submit" name="submit" value="Sell" ><br><br>
-        </div>
-    </form>
-</div>
+    </div>
+</x-app-layout>

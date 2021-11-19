@@ -1,13 +1,78 @@
-<h1>My Portfolio</h1>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Portfolio') }}
+        </h2>
+    </x-slot>
 
-<ul>
-    @foreach ($portfolio as $entry)
-        <li>
-            <p>{{ $entry->getUserStock()->stock_symbol }}, {{ $entry->getUserStock()->amount }}, {{ $entry->getUserStock()->purchase_value }}</p>
-            <p>{{ $entry->getCurrentValue() }}, {{ $entry->getProfitLoss() }}</p>
-            <p>{{ $entry->getQuote()->quote }}</p>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+
+                    <!-- component -->
+                    <body class="flex items-center justify-center">
+                    <div class="container">
+                        <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg my-5">
+                            <thead class="text-white bg-indigo-600">
+                            <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                                <th class="p-3 text-left">Stock</th>
+                                <th class="p-3 text-left">Amount</th>
+                                <th class="p-3 text-left">Purchase Value</th>
+                                <th class="p-3 text-left">Current Value</th>
+                                <th class="p-3 text-left">Profit/Loss</th>
+                                <th class="p-3 text-left" width="110px">Quote</th>
+                            </tr>
+
+                            @foreach ($portfolio as $entry)
+                            </thead>
+                            <tbody class="flex-1 sm:flex-none">
+                            <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+                                <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $entry->getUserStock()->stock_symbol }}</td>
+                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $entry->getUserStock()->amount }}</td>
+                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $entry->getUserStock()->purchase_value }}</td>
+                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $entry->getCurrentValue() }}</td>
+                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $entry->getProfitLoss() }}</td>
+                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $entry->getQuote()->quote }}</td>
+                            </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+                    </body>
+
+                    <style>
+                        html,
+                        body {
+                            height: 100%;
+                        }
+
+                        @media (min-width: 640px) {
+                            table {
+                                display: inline-table !important;
+                            }
+
+                            thead tr:not(:first-child) {
+                                display: none;
+                            }
+                        }
+
+                        td:not(:last-child) {
+                            border-bottom: 0;
+                        }
+
+                        th:not(:last-child) {
+                            border-bottom: 2px solid rgba(0, 0, 0, .1);
+                        }
+                    </style>
 
 
-        </li>
-    @endforeach
-</ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</x-app-layout>
