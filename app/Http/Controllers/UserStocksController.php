@@ -52,6 +52,8 @@ class UserStocksController extends Controller
 
     public function buyStock(BuyStockRequest $request, string $symbol): RedirectResponse
     {
+//        echo "<pre>";
+//        var_dump($request->path());die;
         $amount = $request->get("amountBuy");
         // TODO pielikt validator, ka nevar nopirkt, ja nepietiek funds
 

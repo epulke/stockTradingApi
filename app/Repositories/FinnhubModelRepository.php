@@ -17,13 +17,9 @@ class FinnhubModelRepository implements StockRepository
 {
     private DefaultApi $finnhub;
 
-    public function __construct()
+    public function __construct(DefaultApi $finnhub)
     {
-        //TODO iznest ārā key uz .env failu vai vēl kaut kur
-        $config = Configuration::getDefaultConfiguration()->setApiKey('token', 'c66nbq2ad3icr57jk5dg');
-        $this->finnhub = new DefaultApi(
-            new Client(),
-            $config);
+        $this->finnhub = $finnhub;
     }
 
     public function searchCompanies(string $name): CompaniesCollection

@@ -2,13 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Events\FundsWereDeposited;
+use App\Events\FundsWereWithdrawn;
 use App\Mail\DepositEmail;
+use App\Mail\WithdrawEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class DepositedFundsEmail implements ShouldQueue
+class WithdrawnFundsEmail implements ShouldQueue
 {
     use InteractsWithQueue;
 
@@ -17,8 +18,8 @@ class DepositedFundsEmail implements ShouldQueue
         //
     }
 
-    public function handle(FundsWereDeposited $event)
+    public function handle(FundsWereWithdrawn $event)
     {
-        Mail::to($event->getEmail())->send(new DepositEmail($event->getDeposit()));
+        Mail::to($event->getEmail())->send(new WithdrawEmail($event->getWithdrawal()));
     }
 }

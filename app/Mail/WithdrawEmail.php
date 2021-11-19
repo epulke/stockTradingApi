@@ -7,20 +7,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class FundsEmail extends Mailable
+class WithdrawEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private int $withdrawal;
 
-    private int $deposit;
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct(int $deposit)
+    public function __construct(int $withdrawal)
     {
-        $this->deposit = $deposit;
+        $this->withdrawal = $withdrawal;
     }
 
     /**
@@ -31,7 +26,7 @@ class FundsEmail extends Mailable
     public function build()
     {
         return $this->from("info@stocktrader.com")
-                    ->subject("deposit email")
-                    ->markdown('mail.funds', ["deposit" => $this->deposit]);
+            ->subject("Funds withdrawn from your account")
+            ->markdown('mail.withdraw-email', ["withdrawal" => $this->withdrawal]);
     }
 }

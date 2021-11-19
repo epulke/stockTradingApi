@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Repositories\StockRepository;
 use App\Rules\EnoughFunds;
+use App\Rules\ValidTime;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BuyStockRequest extends FormRequest
@@ -25,7 +27,7 @@ class BuyStockRequest extends FormRequest
     public function rules()
     {
         return [
-            "amountBuy" => ["required", "integer", "gt:0", new EnoughFunds()]
+            "amountBuy" => ["required", "integer", "gt:0", new ValidTime()]
             // TODO šeit rule nestrādā
         ];
     }

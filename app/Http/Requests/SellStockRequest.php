@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidTime;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SellStockRequest extends FormRequest
@@ -24,7 +25,7 @@ class SellStockRequest extends FormRequest
     public function rules()
     {
         return [
-            "amountSell" => ["required", "integer", "gt:0"]
+            "amountSell" => ["required", "integer", "gt:0", new ValidTime()]
         ];
     }
 }

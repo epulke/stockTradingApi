@@ -2,19 +2,25 @@
 
 namespace App\Rules;
 
+use App\Http\Requests\BuyStockRequest;
 use App\Models\UserFunds;
+use App\Repositories\FinnhubModelRepository;
+use App\Repositories\StockRepository;
+use App\Services\BuyStockService;
+
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Http\Request;
 
 class EnoughFunds implements Rule
 {
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct()
+
+    private StockRepository $repository;
+    private BuyStockRequest $request;
+
+    public function __construct(StockRepository $repository, BuyStockRequest $request)
     {
-        //
+        $this->repository = $repository;
+        $this->request = $request;
     }
 
     /**
@@ -27,7 +33,9 @@ class EnoughFunds implements Rule
     public function passes($attribute, $value)
     {
         $funds = UserFunds::where("user_id", auth()->user()->getAuthIdentifier())->firstOrFail();
-        if ($value <= $funds->funds)
+        $symbol = str_replace("portfolio/", "", $this->request->path());
+        $quote = $this->repository->getStockQuote($symbol);
+        if ($value * $quote <= $funds->funds)
         {
             return true;
         }

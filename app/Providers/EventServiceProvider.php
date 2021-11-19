@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Events\FundsWereDeposited;
+use App\Events\FundsWereWithdrawn;
 use App\Listeners\DepositedFundsEmail;
+use App\Listeners\WithdrawnFundsEmail;
+use App\Services\WithdrawFundsService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         FundsWereDeposited::class => [
             DepositedFundsEmail::class
+        ],
+        FundsWereWithdrawn::class => [
+            WithdrawnFundsEmail::class
         ]
     ];
 
