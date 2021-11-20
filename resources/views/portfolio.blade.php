@@ -39,6 +39,8 @@
 
                             </tbody>
                         </table>
+
+                        {{ $portfolio->links() }}
                     </div>
                     </body>
 

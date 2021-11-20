@@ -28,7 +28,7 @@ class BuyStockRequest extends FormRequest
     {
         return [
             "amountBuy" => ["required", "integer", "gt:0", new ValidTime()]
-            // TODO šeit rule nestrādā
+            // TODO šeit rule par available funds vajag
         ];
     }
 }

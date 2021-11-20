@@ -9,7 +9,7 @@ class UserTransactionsController extends Controller
 {
     public function index()
     {
-        $transactions = auth()->user()->transactions()->orderByDesc("created_at")->get();
+        $transactions = auth()->user()->transactions()->orderByDesc("created_at")->paginate(10);
         return view("transactions", ["transactions" => $transactions]);
     }
 }

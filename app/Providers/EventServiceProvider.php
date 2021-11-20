@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Events\FundsWereDeposited;
 use App\Events\FundsWereWithdrawn;
+use App\Events\StockWasPurchased;
 use App\Listeners\DepositedFundsEmail;
+use App\Listeners\StockWasPurchasedEmail;
 use App\Listeners\WithdrawnFundsEmail;
 use App\Services\WithdrawFundsService;
 use Illuminate\Auth\Events\Registered;
@@ -28,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         FundsWereWithdrawn::class => [
             WithdrawnFundsEmail::class
+        ],
+        StockWasPurchased::class => [
+            StockWasPurchasedEmail::class
         ]
     ];
 

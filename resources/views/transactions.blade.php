@@ -33,6 +33,7 @@
                             @endforeach
                             </tbody>
                         </table>
+                        {{ $transactions->links() }}
                     </div>
                     </body>
 

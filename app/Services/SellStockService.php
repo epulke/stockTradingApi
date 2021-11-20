@@ -26,11 +26,11 @@ class SellStockService
         $funds->update(["funds" => $funds->funds + $quote * 100 * $amount]);
 
         $userStock = UserStock::where("user_id", $user->getAuthIdentifier())->firstWhere("stock_symbol", $symbol);
-        $purchasePrice = $userStock->purchase_value / $userStock->amount;
+        $averagePrice = $userStock->purchase_value / $userStock->amount;
 
         $userStock->update([
             "amount" => $userStock->amount - $amount,
-            "purchase_value" => $userStock->purchase_value - $purchasePrice * $amount
+            "purchase_value" => $userStock->purchase_value - $averagePrice * $amount
         ]);
 
         $userTransaction = new UserTransaction([

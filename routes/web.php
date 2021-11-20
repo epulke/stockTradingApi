@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\UserFundsController;
 use App\Http\Controllers\UserStocksController;
 use App\Http\Controllers\UserTransactionsController;
@@ -22,9 +23,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [UserDashboardController::class, "index"])
+    ->middleware(['auth'])->name('dashboard');
 
 Route::resource("companies", CompaniesController::class);
 

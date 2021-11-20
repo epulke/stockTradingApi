@@ -3,6 +3,8 @@
 namespace App\Models\Collections;
 
 use App\Models\UserPortfolioEntry;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class UserPortfolioEntryCollection
 {
@@ -19,7 +21,7 @@ class UserPortfolioEntryCollection
         }
     }
 
-    public function add(UserPortfolioEntry $entry)
+    public function add(UserPortfolioEntry $entry): void
     {
         $this->portfolio[] = $entry;
     }

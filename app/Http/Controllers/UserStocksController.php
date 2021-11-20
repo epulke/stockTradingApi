@@ -13,10 +13,14 @@ use App\Models\UserTransaction;
 use App\Repositories\StockRepository;
 use App\Rules\EnoughFunds;
 use App\Services\BuyStockService;
+use App\Services\GetUserPortfolioService;
+use App\Services\PaginationHelpService;
 use App\Services\SellStockService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class UserStocksController extends Controller
@@ -24,30 +28,30 @@ class UserStocksController extends Controller
     private StockRepository $repository;
     private BuyStockService $buyStockService;
     private SellStockService $sellStockService;
+    private GetUserPortfolioService $getUserPortfolioService;
+    private PaginationHelpService $paginationHelpService;
 
     public function __construct(
         StockRepository $repository,
         BuyStockService $buyStockService,
-        SellStockService $sellStockService
+        SellStockService $sellStockService,
+        GetUserPortfolioService $getUserPortfolioService,
+        PaginationHelpService $paginationHelpService
     )
     {
         $this->repository = $repository;
         $this->buyStockService = $buyStockService;
         $this->sellStockService = $sellStockService;
+        $this->getUserPortfolioService = $getUserPortfolioService;
+        $this->paginationHelpService = $paginationHelpService;
     }
 
-    public function index()
+    public function index(): View
     {
-        $portfolio = new UserPortfolioEntryCollection();
-        $stocks = auth()->user()->stocks()->get();
+        $portfolio = ($this->getUserPortfolioService->execute());
+        $portfolioPaginated = $this->paginationHelpService->paginate($portfolio, 10);
 
-        foreach ($stocks as $stock)
-        {
-            $entry = new UserPortfolioEntry($stock, $this->repository->getStockQuote($stock->stock_symbol));
-            $portfolio->add($entry);
-        }
-
-        return view("portfolio", ["portfolio" => $portfolio->getPortfolio()]);
+        return view("portfolio", ["portfolio" => $portfolioPaginated]);
     }
 
     public function buyStock(BuyStockRequest $request, string $symbol): RedirectResponse

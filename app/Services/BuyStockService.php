@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Events\StockWasPurchased;
 use App\Http\Requests\BuyStockRequest;
+use App\Models\User;
 use App\Models\UserFunds;
 use App\Models\UserStock;
 use App\Models\UserTransaction;
@@ -44,7 +46,7 @@ class BuyStockService
         } else {
             $userStock->update([
                 "amount" => $userStock->amount + $amount,
-                "purchase_value" => $userStock->purchase_value + $amount * $quote
+                "purchase_value" => $userStock->purchase_value + $amount * $quote,
             ]);
         }
 
@@ -56,6 +58,9 @@ class BuyStockService
         ]);
         $userTransaction->user()->associate($user);
         $userTransaction->save();
+
+        $user = User::find($user->getAuthIdentifier());
+        event(new StockWasPurchased($user->email, $symbol, $amount));
     }
 
 }
