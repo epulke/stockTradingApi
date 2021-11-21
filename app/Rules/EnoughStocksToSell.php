@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\User;
+use App\Models\UserStock;
 use Illuminate\Contracts\Validation\Rule;
 
 class EnoughStocksToSell implements Rule
@@ -26,9 +27,13 @@ class EnoughStocksToSell implements Rule
      */
     public function passes($attribute, $value)
     {
+        $symbol = str_replace("portfolio/", "", request()->path());
         $userId = auth()->user()->getAuthIdentifier();
-        User::find($userId)->stocks();
-        //TODO šis rule arī nepabeigts
+        $userAmount = UserStock::where("user_id", $userId)->firstWhere("stock_symbol", $symbol)->amount;
+        if ($value > $userAmount) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -38,6 +43,6 @@ class EnoughStocksToSell implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'You do not have that many stocks to sell.';
     }
 }

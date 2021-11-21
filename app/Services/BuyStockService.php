@@ -27,8 +27,6 @@ class BuyStockService
         $quote = $this->repository->getStockQuote($symbol)->quote;
 
         $funds = UserFunds::where("user_id", $user->getAuthIdentifier())->firstOrFail();
-        // TODO pielikt validator, ka nevar nopirkt, ja nepietiek funds
-
 
         $funds->update(["funds" => $funds->funds - $quote * 100 * $amount]);
 

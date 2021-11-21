@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EnoughStocksToSell;
 use App\Rules\ValidTime;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +26,7 @@ class SellStockRequest extends FormRequest
     public function rules()
     {
         return [
-            "amountSell" => ["required", "integer", "gt:0", new ValidTime()]
+            "amountSell" => ["required", "integer", "gt:0", new EnoughStocksToSell(), new ValidTime()]
         ];
     }
 }

@@ -19,7 +19,6 @@ class SellStockService
     public function execute(int $amount, string $symbol): void
     {
         $user = auth()->user();
-        // TODO šeit jāvalidē, ka nevar pārdot vairāk nekā viņam ir
         $quote = $this->repository->getStockQuote($symbol)->quote;
 
         $funds = UserFunds::where("user_id", $user->getAuthIdentifier())->firstOrFail();
