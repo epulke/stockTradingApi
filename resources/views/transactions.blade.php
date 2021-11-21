@@ -16,19 +16,21 @@
                         <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg my-5">
                             <thead class="text-white bg-indigo-600">
                             <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-                                <th class="p-3 text-left">Date</th>
-                                <th class="p-3 text-left">Transaction Type</th>
-                                <th class="p-3 text-left">Stock Symbol</th>
-                                <th class="p-3 text-left">Stock Price</th>
+                                <th class="p-3 text-right">Date</th>
+                                <th class="p-3 text-right">Transaction Type</th>
+                                <th class="p-3 text-right">Stock Symbol</th>
+                                <th class="p-3 text-right">Amount</th>
+                                <th class="p-3 text-right">Stock Price</th>
                             </tr>
                             </thead>
                             <tbody class="flex-1 sm:flex-none">
                             @foreach ($transactions as $transaction)
-                            <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-                                <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $transaction->created_at }}</td>
-                                <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $transaction->transaction_type }}</td>
-                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $transaction->stock_symbol }}</td>
-                                <td class="border-grey-light border hover:bg-gray-100 p-3 truncate">{{ $transaction->stock_price }}</td>
+                            <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0 text-right">
+                                <td class="border-grey-light border p-3">{{ $transaction->created_at }}</td>
+                                <td class="border-grey-light border p-3">{{ $transaction->transaction_type }}</td>
+                                <td class="border-grey-light border p-3 truncate">{{ $transaction->stock_symbol }}</td>
+                                <td class="border-grey-light border p-3 truncate">{{ $transaction->amount }}</td>
+                                <td class="border-grey-light border p-3 truncate text-right">{{ number_format($transaction->stock_price, 2) }}</td>
                             </tr>
                             @endforeach
                             </tbody>
