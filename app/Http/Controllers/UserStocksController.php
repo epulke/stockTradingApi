@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BuyStockRequest;
+use App\Http\Requests\PortfolioFilterRequest;
 use App\Http\Requests\SellStockRequest;
 use App\Models\Collections\UserPortfolioEntryCollection;
 use App\Models\User;
@@ -13,6 +14,7 @@ use App\Models\UserTransaction;
 use App\Repositories\StockRepository;
 use App\Rules\EnoughFunds;
 use App\Services\BuyStockService;
+use App\Services\FilterPortfolioService;
 use App\Services\GetUserPortfolioService;
 use App\Services\PaginationHelpService;
 use App\Services\SellStockService;
@@ -30,13 +32,15 @@ class UserStocksController extends Controller
     private SellStockService $sellStockService;
     private GetUserPortfolioService $getUserPortfolioService;
     private PaginationHelpService $paginationHelpService;
+    private FilterPortfolioService $filterPortfolioService;
 
     public function __construct(
         StockRepository $repository,
         BuyStockService $buyStockService,
         SellStockService $sellStockService,
         GetUserPortfolioService $getUserPortfolioService,
-        PaginationHelpService $paginationHelpService
+        PaginationHelpService $paginationHelpService,
+        FilterPortfolioService $filterPortfolioService
     )
     {
         $this->repository = $repository;
@@ -44,6 +48,7 @@ class UserStocksController extends Controller
         $this->sellStockService = $sellStockService;
         $this->getUserPortfolioService = $getUserPortfolioService;
         $this->paginationHelpService = $paginationHelpService;
+        $this->filterPortfolioService = $filterPortfolioService;
     }
 
     public function index(): View
@@ -56,11 +61,7 @@ class UserStocksController extends Controller
 
     public function buyStock(BuyStockRequest $request, string $symbol): RedirectResponse
     {
-//        echo "<pre>";
-//        var_dump($request->path());die;
         $amount = $request->get("amountBuy");
-        // TODO pielikt validator, ka nevar nopirkt, ja nepietiek funds
-
         $this->buyStockService->execute($amount, $symbol);
 
         return redirect()->route("portfolio.index");
@@ -68,15 +69,18 @@ class UserStocksController extends Controller
 
     public function sellStock(SellStockRequest $request, $symbol): RedirectResponse
     {
-        // TODO šeit jāvalidē, ka nevar pārdot vairāk nekā viņam ir
         $amount = $request->get("amountSell");
         $this->sellStockService->execute($amount, $symbol);
 
         return redirect()->route("portfolio.index");
     }
 
-    public function test()
+    public function filter(PortfolioFilterRequest $request): View
     {
-        return view("test");
+        $position = $request->get("position");
+        $type = $request->get("type");
+        $portfolio = $this->filterPortfolioService->execute($position, $type);
+
+        return view("portfolio", ["portfolio" => $portfolio]);
     }
 }

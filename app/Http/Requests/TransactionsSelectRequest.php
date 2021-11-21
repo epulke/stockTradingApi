@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\EnoughStocksToSell;
-use App\Rules\ValidTime;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class SellStockRequest extends FormRequest
+class TransactionsSelectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +25,7 @@ class SellStockRequest extends FormRequest
     public function rules()
     {
         return [
-            "amountSell" => ["required", "integer", "gt:0", new ValidTime(), new EnoughStocksToSell()]
+            "type" => ["required", Rule::in(["buy", "sell", "deposit", "withdrawal"])]
         ];
     }
 }

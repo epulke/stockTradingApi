@@ -28,7 +28,7 @@ class BuyStockRequest extends FormRequest
     public function rules(EnoughFunds $enoughFundsRule)
     {
         return [
-            "amountBuy" => ["required", "integer", "gt:0", $enoughFundsRule, new ValidTime()]
+            "amountBuy" => ["required", "integer", "gt:0", new ValidTime(), $enoughFundsRule]
         ];
     }
 }

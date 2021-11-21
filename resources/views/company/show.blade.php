@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="p-6 bg-white mr-4 text-gray-700 font-bold mb-2">
 
                     <div class="text-center">
                         <h5 class="font-bold text-4xl">{{ $company->name }}</h5>
@@ -43,9 +43,10 @@
                                 @error("amountBuy")
                                 <p style="color: red">{{ $message }}</p>
                                 @enderror
-
+                                <p>Available Funds: {{ number_format($funds, 2) }}</p>
                             </div>
                         </form>
+
 
                         <form method="post" action="/portfolio/{{ $company->symbol }}">
                             @csrf
@@ -58,6 +59,7 @@
                                 @error("amountSell")
                                 <p style="color: red">{{ $message }}</p>
                                 @enderror
+                                <p>Number of stocks that you have: {{ number_format($amount) }}</p>
                             </div>
                         </form>
                     </div>

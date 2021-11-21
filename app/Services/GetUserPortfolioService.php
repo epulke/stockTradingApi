@@ -12,12 +12,10 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class GetUserPortfolioService
 {
     private StockRepository $repository;
-    private PaginationHelpService $pagination;
 
-    public function __construct(StockRepository $repository, PaginationHelpService $pagination)
+    public function __construct(StockRepository $repository)
     {
         $this->repository = $repository;
-        $this->pagination = $pagination;
     }
 
     public function execute(): Collection

@@ -32,8 +32,7 @@ class UserFundsController extends Controller
 
     public function index(): View
     {
-        $userId = Auth::user()->getAuthIdentifier();
-        $funds = UserFunds::where("user_id", $userId)->firstOrFail()->funds;
+        $funds = UserFunds::where("user_id", auth()->user()->getAuthIdentifier())->firstOrFail()->funds;
         return view("funds.funds", ["funds" => $funds/100]);
     }
 

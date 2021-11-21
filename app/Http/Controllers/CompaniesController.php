@@ -9,6 +9,7 @@ use App\Models\UserStock;
 use App\Models\UserTransaction;
 use App\Repositories\StockRepository;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CompaniesController extends Controller
 {
@@ -19,7 +20,7 @@ class CompaniesController extends Controller
         $this->repository = $repository;
     }
 
-    public function index(SearchStockRequest $request)
+    public function index(SearchStockRequest $request): View
     {
         $stocksCollection = $this->repository->searchCompanies($request->get("search"))->getStocksCollection();
         return view("search.results", ["stocks" => $stocksCollection]);
@@ -40,13 +41,17 @@ class CompaniesController extends Controller
         //
     }
 
-    public function show($id)
+    public function show($id): View
     {
         $companyProfile = $this->repository->getCompanyProfile($id);
         $quote = $this->repository->getStockQuote($id);
+        $funds = UserFunds::where("user_id", auth()->user()->getAuthIdentifier())->firstOrFail()->funds;
+        $amount = UserStock::where("user_id", auth()->user()->getAuthIdentifier())->firstWhere("stock_symbol", $id)->amount;
         return view("company.show", [
             "company" => $companyProfile,
-            "quote" => $quote->quote
+            "quote" => $quote->quote,
+            "funds" => $funds / 100,
+            "amount" => $amount
         ]);
     }
 

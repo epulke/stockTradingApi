@@ -43,6 +43,8 @@ Route::get("/search/results", [CompaniesController::class, "index"])
 
 Route::get("/portfolio", [UserStocksController::class, "index"])
     ->middleware(["auth"])->name("portfolio.index");
+Route::get("/portfolio/filter", [UserStocksController::class, "filter"])
+    ->middleware(["auth"])->name("portfolio.filter");
 Route::post("/portfolio/{symbol}", [UserStocksController::class, "buyStock"])
     ->middleware(["auth"])->name("portfolio.buyStock");
 Route::put("/portfolio/{symbol}", [UserStocksController::class, "sellStock"])
@@ -50,7 +52,9 @@ Route::put("/portfolio/{symbol}", [UserStocksController::class, "sellStock"])
 
 Route::get("/transactions", [UserTransactionsController::class, "index"])
     ->middleware(["auth"])->name("transactions");
+Route::get("/transactions/select", [UserTransactionsController::class, "select"])
+    ->middleware(["auth"])->name("transactions.select");
 
-Route::get("/test", [UserStocksController::class, "test"])->name("test");
+
 
 require __DIR__.'/auth.php';
