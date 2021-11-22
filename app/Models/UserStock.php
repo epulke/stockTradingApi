@@ -9,7 +9,7 @@ class UserStock extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["stock_symbol", "amount", "purchase_value"];
+    protected $fillable = ["stock_symbol", "company_name", "amount", "purchase_value"];
 
     public function user()
     {

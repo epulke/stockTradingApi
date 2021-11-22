@@ -9,7 +9,7 @@ class PaginationHelpService
 {
     public function paginate(Collection $items, int $perPage): LengthAwarePaginator
     {
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPage = LengthAwarePaginator::resolveCurrentPage() ? : 1;
         return new LengthAwarePaginator(
             $items->forPage($currentPage, $perPage),
             $items->count(),

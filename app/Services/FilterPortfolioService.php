@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class FilterPortfolioService
@@ -23,70 +24,73 @@ class FilterPortfolioService
         $portfolio = ($this->getUserPortfolioService->execute());
         if ($type === "ascending")
         {
-            switch ($position)
-            {
-                case "stockSymbol":
-                    $portfolioSorted = $portfolio->sortBy(function($item) {
-                        return $item->getUserStock()->stock_symbol;
-                    });
-                    break;
-                case "amount":
-                    $portfolioSorted = $portfolio->sortBy(function($item) {
-                        return $item->getUserStock()->amount; });
-                    break;
-                case "purchaseValue":
-                    $portfolioSorted = $portfolio->sortBy(function($item) {
-                        return $item->getUserStock()->purchase_value; });
-                    break;
-                case "currentValue":
-                    $portfolioSorted = $portfolio->sortBy(function($item) {
-                        return $item->getCurrentValue(); });
-                    break;
-                case "profitloss":
-                    $portfolioSorted = $portfolio->sortBy(function($item) {
-                        return $item->getProfitLoss(); });
-                    break;
-                case "quote":
-                    $portfolioSorted = $portfolio->sortBy(function($item) {
-                        return $item->getQuote()->quote; });
-                    break;
-            }
+            $portfolioSorted = $this->sortAscending($position, $portfolio);
         }
 
         if ($type === "descending")
         {
-            switch ($position)
-            {
-                case "stockSymbol":
-                    $portfolioSorted = $portfolio->sortByDesc(function($item) {
-                        return $item->getUserStock()->stock_symbol;
-                    });
-                    break;
-                case "amount":
-                    $portfolioSorted = $portfolio->sortByDesc(function($item) {
-                        return $item->getUserStock()->amount; });
-                    break;
-                case "purchaseValue":
-                    $portfolioSorted = $portfolio->sortByDesc(function($item) {
-                        return $item->getUserStock()->purchase_value; });
-                    break;
-                case "currentValue":
-                    $portfolioSorted = $portfolio->sortByDesc(function($item) {
-                        return $item->getCurrentValue(); });
-                    break;
-                case "profitloss":
-                    $portfolioSorted = $portfolio->sortByDesc(function($item) {
-                        return $item->getProfitLoss(); });
-                    break;
-                case "quote":
-                    $portfolioSorted = $portfolio->sortByDesc(function($item) {
-                        return $item->getQuote()->quote; });
-                    break;
-            }
+            $portfolioSorted = $this->sortDescending($position, $portfolio);
         }
 
         $portfolioPaginated = $this->paginationHelpService->paginate($portfolioSorted, 10);
 
         return $portfolioPaginated;
+    }
+
+    private function sortAscending(string $position, Collection $portfolio): Collection
+    {
+        switch ($position)
+        {
+            case "companyName":
+                return  $portfolio->sortBy(function($item) {
+                    return $item->getUserStock()->company_name;});
+            case "companySymbol":
+                return  $portfolio->sortBy(function($item) {
+                    return $item->getUserStock()->stock_symbol;});
+            case "amount":
+                return  $portfolio->sortBy(function($item) {
+                    return $item->getUserStock()->amount; });
+            case "purchaseValue":
+                return  $portfolio->sortBy(function($item) {
+                    return $item->getUserStock()->purchase_value; });
+            case "currentValue":
+                return  $portfolio->sortBy(function($item) {
+                    return $item->getCurrentValue(); });
+            case "profitloss":
+                return  $portfolio->sortBy(function($item) {
+                    return $item->getProfitLoss(); });
+            case "quote":
+                return $portfolio->sortBy(function($item) {
+                    return $item->getQuote()->quote; });
+        }
+    }
+
+    private function sortDescending(string $position, Collection $portfolio): Collection
+    {
+        switch ($position)
+        {
+            case "companyName":
+                return  $portfolio->sortByDesc(function($item) {
+                    return $item->getUserStock()->company_name;});
+            case "stockSymbol":
+                return $portfolio->sortByDesc(function($item) {
+                    return $item->getUserStock()->stock_symbol;
+                });
+            case "amount":
+                return $portfolio->sortByDesc(function($item) {
+                    return $item->getUserStock()->amount; });
+            case "purchaseValue":
+                return $portfolio->sortByDesc(function($item) {
+                    return $item->getUserStock()->purchase_value; });
+            case "currentValue":
+                return $portfolio->sortByDesc(function($item) {
+                    return $item->getCurrentValue(); });
+            case "profitloss":
+                return $portfolio->sortByDesc(function($item) {
+                    return $item->getProfitLoss(); });
+            case "quote":
+                return $portfolio->sortByDesc(function($item) {
+                    return $item->getQuote()->quote; });
+        }
     }
 }

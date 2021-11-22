@@ -17,6 +17,7 @@ class CreateUsersStocks extends Migration
             $table->id();
             $table->bigInteger("user_id");
             $table->string("stock_symbol");
+            $table->string("company_name");
             $table->integer("amount");
             $table->float("purchase_value");
             $table->timestamps();

@@ -18,15 +18,21 @@ class DepositFundsService
 
         $user = User::find($userId);
 
+        $this->updateUserTransactions($amount, $user);
+
+        event(new FundsWereDeposited($user->email, $amount));
+    }
+
+    private function updateUserTransactions(int $amount, User $user)
+    {
         $userTransaction = new UserTransaction([
             "transaction_type" => "deposit",
             "stock_symbol" => "deposit",
+            "company_name" => "deposit",
             "amount" => 1,
             "stock_price" => $amount
         ]);
         $userTransaction->user()->associate($user);
         $userTransaction->save();
-
-        event(new FundsWereDeposited($user->email, $amount));
     }
 }

@@ -44,15 +44,20 @@ class CompaniesController extends Controller
     public function show($id): View
     {
         $companyProfile = $this->repository->getCompanyProfile($id);
-        $quote = $this->repository->getStockQuote($id);
-        $funds = UserFunds::where("user_id", auth()->user()->getAuthIdentifier())->firstOrFail()->funds;
-        $amount = UserStock::where("user_id", auth()->user()->getAuthIdentifier())->firstWhere("stock_symbol", $id)->amount;
-        return view("company.show", [
-            "company" => $companyProfile,
-            "quote" => $quote->quote,
-            "funds" => $funds / 100,
-            "amount" => $amount
-        ]);
+        if (!strpos($id, "."))
+        {
+            $quote = $this->repository->getStockQuote($id);
+            $funds = UserFunds::where("user_id", auth()->user()->getAuthIdentifier())->firstOrFail()->funds;
+            $amount = UserStock::where("user_id", auth()->user()->getAuthIdentifier())->firstWhere("stock_symbol", $id);
+            return view("company.show", [
+                "company" => $companyProfile,
+                "quote" => $quote->quote,
+                "funds" => $funds / 100,
+                "amount" => $amount->amount ?? 0
+            ]);
+        } else {
+            return view( "company.forbidden", ["company" => $companyProfile]);
+        }
     }
 
     /**

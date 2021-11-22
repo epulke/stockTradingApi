@@ -13,10 +13,21 @@ class WithdrawFundsService
     public function execute(int $amount)
     {
         $userId = Auth::user()->getAuthIdentifier();
+        $user = User::find($userId);
+        $this->updateUserFunds($userId, $amount);
+        $this->updateUserTransactions($user, $amount);
+
+        event(new FundsWereWithdrawn($user->email, $amount));
+    }
+
+    private function updateUserFunds(int $userId, int $amount)
+    {
         $funds = UserFunds::where("user_id", $userId)->firstOrFail();
         $funds->update(["funds" => $funds->funds - $amount * 100]);
-        $user = User::find($userId);
+    }
 
+    private function updateUserTransactions(User $user, int $amount)
+    {
         $userTransaction = new UserTransaction([
             "transaction_type" => "withdrawal",
             "stock_symbol" => "withdrawal",
@@ -25,7 +36,5 @@ class WithdrawFundsService
         ]);
         $userTransaction->user()->associate($user);
         $userTransaction->save();
-
-        event(new FundsWereWithdrawn($user->email, $amount));
     }
 }

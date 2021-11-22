@@ -8,7 +8,7 @@ class UserPortfolioEntry
     private CompanyStockQuote $quote;
     private float $currentValue;
     private float $profitLoss;
-    private string $stockName;
+    private float $percentageProfitLoss;
 
     public function __construct(UserStock $userStock, CompanyStockQuote $quote)
     {
@@ -16,6 +16,7 @@ class UserPortfolioEntry
         $this->quote = $quote;
         $this->currentValue = $userStock->amount * $quote->quote;
         $this->profitLoss = $this->currentValue - $userStock->purchase_value;
+        $this->percentageProfitLoss = $this->profitLoss / $userStock->purchase_value;
     }
 
     public function getUserStock(): UserStock
@@ -36,5 +37,10 @@ class UserPortfolioEntry
     public function getProfitLoss()
     {
         return $this->profitLoss;
+    }
+
+    public function getPercentageProfitLoss()
+    {
+        return $this->percentageProfitLoss;
     }
 }

@@ -18,6 +18,7 @@ class CreateUsersTransactionsTable extends Migration
             $table->bigInteger("user_id");
             $table->string("transaction_type");
             $table->string("stock_symbol");
+            $table->string("company_name");
             $table->integer("amount");
             $table->float("stock_price");
             $table->timestamps();

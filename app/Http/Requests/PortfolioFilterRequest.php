@@ -27,7 +27,8 @@ class PortfolioFilterRequest extends FormRequest
         return [
             "position" => [ "required",
                 Rule::in([
-                "stockSymbol",
+                "companyName",
+                "companySymbol",
                 "amount",
                 "purchaseValue",
                 "currentValue",

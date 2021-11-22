@@ -9,6 +9,7 @@ use App\Models\CompanyStockQuote;
 use Finnhub\Api\DefaultApi;
 use Finnhub\Configuration;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
@@ -41,7 +42,7 @@ class FinnhubModelRepository implements StockRepository
             );
 
         }
-        cache()->put($cacheKey, $collection, now()->addHour());
+        cache()->put($cacheKey, $collection, now()->addMinutes(30));
 
         return $collection;
     }
@@ -64,7 +65,8 @@ class FinnhubModelRepository implements StockRepository
             "marketCapitalization" => $company->getMarketCapitalization()
         ]);
 
-        cache()->put($cacheKey, $companyProfile, now()->addHour());
+//        Cache::put($cacheKey, $companyProfile, now()->addMinutes(1));
+        cache()->put($cacheKey, $companyProfile, now()->addMinutes(30));
 
         return $companyProfile;
     }
@@ -77,5 +79,10 @@ class FinnhubModelRepository implements StockRepository
             "quote" => $this->finnhub->quote($symbol)->getC()
         ]);
         return $quote;
+    }
+
+    public function getCompanyName(string $symbol): String
+    {
+        return $this->finnhub->companyProfile2($symbol)->getName();
     }
 }
