@@ -29,7 +29,7 @@ class EnoughFunds implements Rule
         $funds = UserFunds::where("user_id", auth()->user()->getAuthIdentifier())->firstOrFail();
         $symbol = str_replace("portfolio/", "", request()->path());
         $quote = $this->repository->getStockQuote($symbol)->quote;
-        if ($value * $quote <= $funds->funds * 100)
+        if ($value * $quote <= $funds->funds / 100)
         {
             return true;
         }

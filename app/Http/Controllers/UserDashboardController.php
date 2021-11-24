@@ -27,24 +27,24 @@ class UserDashboardController extends Controller
         $portfolioEntries = $this->getUserPortfolioService->execute()->all();
         $currentValue = 0;
         $stocksProportion = [];
+        $profitLoss = 0;
         foreach ($portfolioEntries as $entry)
         {
             /** @var UserPortfolioEntry $entry */
             $currentValue += $entry->getCurrentValue();
+            $profitLoss += $entry->getProfitLoss();
         }
         foreach ($portfolioEntries as $entry)
         {
-            $stocksProportion[] = [$entry->getUserStock()->stock_symbol, $entry->getCurrentValue()/$currentValue * 100];
+            $stocksProportion[] = [$entry->getUserStock()->stock_symbol, $entry->getCurrentValue()];
         }
-//        echo "<pre>";
-//        var_dump($purchaseValue);die;
-
         return view("dashboard", [
             "user" => $user,
             "funds" => $funds,
             "purchaseValue" => $purchaseValue,
             "currentValue" => $currentValue,
-            "stocksProportion" => $stocksProportion
+            "stocksProportion" => $stocksProportion,
+            "profitLoss" => $profitLoss
         ]);
     }
 }

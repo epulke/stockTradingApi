@@ -18,17 +18,29 @@
                             <img class="object-center mx-auto" src="{{ $company->logoUrl }}" alt="{{ $company->name }} logo">
                         </div>
 
-                        <div class ="grid gap-4 grid-cols-2">
-                            <h5 class="flex-1"><b>Currency:</b> {{ $company->currency }}</h5>
-                            <h5 class="flex-2"><b>Company Industry:</b> {{ $company->industry }}</h5>
+                        <div class="flex items-center  text-center">
+                            <div class="mx-auto flex items-center p-2 ">
+                                <div class="flex-1 bg-white m-4 rounded-lg p-2 xl:p-6 border-2 border-indigo-500">
+                                    <h2 class="title-font text-indigo-500 font-medium sm:text-3xl text-3xl text-white">{{ $company->currency }}</h2>
+                                    <p class="leading-relaxed text-gray-600 font-bold">Currency</p>
+                                </div>
+                                <div class="flex-1 bg-white m-4 rounded-lg p-2 xl:p-6 border-2 border-indigo-500">
+                                    <h2 class="title-font text-indigo-500 font-medium sm:text-3xl text-3xl text-white">{{ $company->industry }}</h2>
+                                    <p class="leading-relaxed text-gray-600 font-bold">Industry</p>
+                                </div>
+                                <div class="flex-1 bg-white m-4 rounded-lg p-2 xl:p-6 border-2 border-indigo-500">
+                                    <h2 class="title-font text-indigo-500 font-medium sm:text-3xl text-3xl text-white"><a href="{{ $company->webUrl }}" class="hover:text-indigo-600 ">WWW</a></h2>
+                                    <p class="leading-relaxed text-gray-600 font-bold">Website</p>
+                                </div>
+                                <div class="flex-1 bg-white m-4 rounded-lg p-2 xl:p-6 border-2 border-indigo-500">
+                                    <h2 class="title-font text-indigo-500 font-medium sm:text-3xl text-3xl text-white">{{ number_format($company->marketCapitalization) }}</h2>
+                                    <p class="leading-relaxed text-gray-600 font-bold">Market Cap, mUSD</p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class ="grid gap-4 grid-cols-2">
-                            <h5 ><a href="{{ $company->webUrl }}" class="hover:text-indigo-600 ">Website</a></h5>
-                            <h5 ><b>Market Capitalization:</b> {{ number_format($company->marketCapitalization) }}</h5>
-                        </div>
-
-                        <h3 class="font-bold text-2xl">Stock Price <br>{{ number_format($quote, 2) }}</h3>
+                    <div class="align-middle bg-indigo-200 mx-72 rounded-lg p-2 xl:p-6 border-2 border-indigo-500">
+                            <h3 class="font-bold text-2xl ">Stock Price <br>{{ number_format($quote, 2) }}</h3>
                     </div>
 
 

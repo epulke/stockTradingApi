@@ -13,25 +13,31 @@
                     <!-- component -->
                     <body class="flex items-center justify-center">
 
-                    <form method="get" action="/transactions/select">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="position" class="mr-4 text-gray-700 font-bold inline-block mb-2">Select: </label>
-                            <select name="type" id="type" class="border bg-gray-100 py-2 px-4 w-60 outline-none focus:ring-2 focus:ring-indigo-400 rounded">
-                                <option value="buy">Buy</option>
-                                <option value="sell">Sell</option>
-                                <option value="deposit">Deposit</option>
-                                <option value="withdrawal">Withdrawal</option>
-                            </select>
-                            <input type="submit" id="submit" name="submit" value="Select" class="w-2/12 mt-6 text-indigo-50 font-bold bg-indigo-600 py-3 rounded-md hover:bg-indigo-500 transition duration-300">
-                            @error("position")
-                            <p style="color: red">{{ $message }}</p>
-                            @enderror
-                            @error("type")
-                            <p style="color: red">{{ $message }}</p>
-                            @enderror
+                    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+                    <div class="inline-flex justify-center">
+                        <div x-data="{ dropdownOpen: false }" class="relative ">
+                            <button @click="dropdownOpen = !dropdownOpen" class="relative z-10 block rounded-md p-2 text-indigo-50 font-bold bg-indigo-600 py-3 rounded-md hover:bg-indigo-500 transition duration-300">
+                                Transaction Type
+                            </button>
+
+                            <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
+
+                            <div x-show="dropdownOpen" class="absolute left-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+                                <a href="/transactions/select/buy" class="block px-4 py-2 text-sm fond-bold rounded-md capitalize text-gray-700 hover:bg-indigo-500 hover:text-white">
+                                    Buy
+                                </a>
+                                <a href="/transactions/select/sell" class="block px-4 py-2 text-sm fond-bold rounded-md capitalize text-gray-700 hover:bg-indigo-500 hover:text-white">
+                                    Sell
+                                </a>
+                                <a href="/transactions/select/deposit" class="block px-4 py-2 text-sm capitalize rounded-md text-gray-700 hover:bg-indigo-500 hover:text-white">
+                                    Deposit
+                                </a>
+                                <a href="/transactions/select/withdrawal" class="block px-4 py-2 text-sm capitalize rounded-md text-gray-700 hover:bg-indigo-500 hover:text-white">
+                                    Withdrawal
+                                </a>
+                            </div>
                         </div>
-                    </form>
+                    </div>
 
                     <div class="container">
                         <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg my-5">

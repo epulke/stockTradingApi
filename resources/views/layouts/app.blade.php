@@ -12,9 +12,12 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="css/style.css">
 
         <!-- Scripts -->
+        <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
         <script src="{{ asset('js/app.js') }}" defer></script>
+
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-blue-100">

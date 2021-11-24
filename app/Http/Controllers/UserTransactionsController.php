@@ -16,9 +16,9 @@ class UserTransactionsController extends Controller
         return view("transactions", ["transactions" => $transactions]);
     }
 
-    public function select(TransactionsSelectRequest $request): View
+    public function select(string $type): View
     {
-        $transactions = auth()->user()->transactions()->where("transaction_type", $request->get("type"))
+        $transactions = auth()->user()->transactions()->where("transaction_type", $type)
             ->orderByDesc("created_at")->paginate(10);
         return view("transactions", ["transactions" => $transactions]);
     }

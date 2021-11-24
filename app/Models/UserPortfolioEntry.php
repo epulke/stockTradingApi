@@ -16,7 +16,7 @@ class UserPortfolioEntry
         $this->quote = $quote;
         $this->currentValue = $userStock->amount * $quote->quote;
         $this->profitLoss = $this->currentValue - $userStock->purchase_value;
-        $this->percentageProfitLoss = $this->profitLoss / $userStock->purchase_value;
+        $this->percentageProfitLoss = $this->profitLoss / $userStock->purchase_value * 100;
     }
 
     public function getUserStock(): UserStock

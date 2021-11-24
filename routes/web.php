@@ -52,7 +52,7 @@ Route::put("/portfolio/{symbol}", [UserStocksController::class, "sellStock"])
 
 Route::get("/transactions", [UserTransactionsController::class, "index"])
     ->middleware(["auth"])->name("transactions");
-Route::get("/transactions/select", [UserTransactionsController::class, "select"])
+Route::get("/transactions/select/{type}", [UserTransactionsController::class, "select"])
     ->middleware(["auth"])->name("transactions.select");
 
 

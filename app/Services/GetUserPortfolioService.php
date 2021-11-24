@@ -29,6 +29,8 @@ class GetUserPortfolioService
             $portfolio->add($entry);
         }
 
-        return $portfolio;
+        return $portfolio->sortByDesc(function($item) {
+            return $item->getUserStock()->updated_at;
+        });
     }
 }
