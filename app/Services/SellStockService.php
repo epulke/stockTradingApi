@@ -54,6 +54,7 @@ class SellStockService
         $userTransaction = new UserTransaction([
             "transaction_type" => "sell",
             "stock_symbol" => $symbol,
+            "company_name" => $this->repository->getCompanyName($symbol),
             "amount" => $amount,
             "stock_price" => $quote
         ]);

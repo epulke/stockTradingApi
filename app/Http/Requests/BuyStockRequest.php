@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Repositories\StockRepository;
 use App\Rules\EnoughFunds;
-use App\Rules\EnoughStocksToSell;
 use App\Rules\ValidTime;
 use Illuminate\Foundation\Http\FormRequest;
 

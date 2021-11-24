@@ -12,11 +12,6 @@ class DepositedFundsEmail implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    public function __construct()
-    {
-        //
-    }
-
     public function handle(FundsWereDeposited $event)
     {
         Mail::to($event->getEmail())->send(new DepositEmail($event->getDeposit()));

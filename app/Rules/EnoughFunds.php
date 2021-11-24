@@ -5,7 +5,6 @@ namespace App\Rules;
 use App\Models\UserFunds;
 use App\Repositories\StockRepository;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Http\Request;
 
 class EnoughFunds implements Rule
 {

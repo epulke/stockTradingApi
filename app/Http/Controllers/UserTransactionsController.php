@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TransactionsSelectRequest;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 
 class UserTransactionsController extends Controller

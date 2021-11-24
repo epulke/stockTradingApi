@@ -2,21 +2,11 @@
 
 namespace App\Rules;
 
-use App\Models\User;
 use App\Models\UserStock;
 use Illuminate\Contracts\Validation\Rule;
 
 class EnoughStocksToSell implements Rule
 {
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Determine if the validation rule passes.

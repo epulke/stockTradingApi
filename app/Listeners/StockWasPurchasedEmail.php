@@ -11,22 +11,7 @@ use Illuminate\Support\Facades\Mail;
 class StockWasPurchasedEmail implements ShouldQueue
 {
     use InteractsWithQueue;
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
 
-    /**
-     * Handle the event.
-     *
-     * @param  object  $event
-     * @return void
-     */
     public function handle(StockWasPurchased $event)
     {
         Mail::to($event->getEmail())->send(new PurchasedStockEmail($event->getStock(), $event->getAmount()));

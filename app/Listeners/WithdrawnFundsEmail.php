@@ -13,11 +13,6 @@ class WithdrawnFundsEmail implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    public function __construct()
-    {
-        //
-    }
-
     public function handle(FundsWereWithdrawn $event)
     {
         Mail::to($event->getEmail())->send(new WithdrawEmail($event->getWithdrawal()));

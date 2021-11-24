@@ -31,6 +31,7 @@ class WithdrawFundsService
         $userTransaction = new UserTransaction([
             "transaction_type" => "withdrawal",
             "stock_symbol" => "withdrawal",
+            "company_name" => "withdrawal",
             "amount" => 1,
             "stock_price" => $amount
         ]);
